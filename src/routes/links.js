@@ -9,7 +9,6 @@ router.get('/add', (req, res) => {
     res.render('links/add');
 });
 
-
 //insertar producto
 router.post('/add', isLoggedIn, async (req, res) => {
     const { category, nameps, precio, cantidad, description, total=precio*cantidad } = req.body;
