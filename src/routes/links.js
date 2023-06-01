@@ -9,6 +9,7 @@ router.get('/add', (req, res) => {
     res.render('links/add');
 });
 
+
 //insertar producto
 router.post('/add', isLoggedIn, async (req, res) => {
     const { category, nameps, precio, cantidad, description, total=precio*cantidad } = req.body;
@@ -21,8 +22,21 @@ router.post('/add', isLoggedIn, async (req, res) => {
         total,
         user_id: req.user.id
     };
-    await pool.query('INSERT INTO ps set ?', [newLink]);
+    await pool.query('INSERT INTO ps set ?', [newLink]);     
     req.flash('success', 'The Product Has Been Saved Successfully');
+    //query for obtain the bugget end in the table budget
+    const pess=await pool.query('SELECT budget.pend FROM budget WHERE user_id = ?', [req.user.id]);
+    console.log(pess);
+    //convert the query in array and convert in JSON
+    var string=JSON.stringify(pess);
+    console.log(string);
+    var json =  JSON.parse(string);
+    console.log(json[0].pend);
+    //Operation for the rest of the budget
+    const pend= json[0].pend - total;
+    const { id } = req.params;
+    //update the database
+    await pool.query('UPDATE budget set pend = ? WHERE user_id = ?', [pend, req.user.id]);
     res.redirect('/links');
 });
 
@@ -53,9 +67,10 @@ router.get('/', isLoggedIn, async (req, res) => {
 //Consulta Presupuesto
 router.get('/budgetc', isLoggedIn, async (req, res) => {
     const budget = await pool.query('SELECT * FROM budget WHERE user_id = ?', [req.user.id]);
-    res.render('links/budgetc', { budget });
+    res.render('links/budgetc', { budget});
     console.log(budget);
 });
+
 //presupuesto consulta
 router.get('/hb', isLoggedIn, async (req, res) => {
     const history = await pool.query('SELECT * FROM budget WHERE user_id = ?', [req.user.id]);
