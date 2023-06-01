@@ -1,0 +1,32 @@
+<div class="container p-4">
+    <div class="row">
+        
+        <div class="col-md-4 mx auto">
+            <div class="card text-center">
+                <div class="card-body">
+                        <h3 class="card-title text-uppercase">
+                            Budget
+                        </h3>
+                        {{#each budget}}
+                    <a>
+                    <p class="text-muted">
+                        Date of Start: {{fechai}}
+                    </p>
+                    <p class="text-muted">
+                        Date of End: {{fechaf}}
+                    </p>
+                    <p class="text-muted">
+                        Total Budget: {{pinit}}
+                    </p>
+                    <p class="text-muted"> 
+                        Remaining Budget: {{pend}}</p>
+                    <a class="btn btn-secondary" href="/links/budgetedit/{{id}}">
+                        Edit
+                    </a>
+                    </a>
+                {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
