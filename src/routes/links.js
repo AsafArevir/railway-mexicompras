@@ -20,7 +20,8 @@ router.post('/add', isLoggedIn, async (req, res) => {
         description,
         total,
         user_id: req.user.id
-    };     
+    };
+    await pool.query('INSERT INTO ps set ?', [newLink]);
     req.flash('success', 'The Product Has Been Saved Successfully');
     res.redirect('/links');
 });
