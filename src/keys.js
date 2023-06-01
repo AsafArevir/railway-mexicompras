@@ -1,6 +1,4 @@
-import {
-    DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, DB_PORT
-} from './config.js'
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER, DB_PORT } from './config.js'
 
 module.exports = {
 
